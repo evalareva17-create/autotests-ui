@@ -1,0 +1,25 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="fastapi" />
+          <option value="uvicorn" />
+          <option value="pytest" />
+          <option value="requests" />
+          <option value="httpx" />
+          <option value="websockets" />
+          <option value="pytest-xdist" />
+          <option value="pydantic" />
+          <option value="pydantic-settings" />
+          <option value="faker" />
+          <option value="playwright" />
+          <option value="python-dotenv" />
+          <option value="pytest-asyncio" />
+          <option value="allure-pytest" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
