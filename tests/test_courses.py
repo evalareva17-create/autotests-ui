@@ -2,6 +2,8 @@ import pytest
 from playwright.sync_api import sync_playwright, expect
 import os
 
+@pytest.mark.courses
+@pytest.mark.regression
 def test_empty_courses_list():
     with sync_playwright() as playwright:
         # Шаг 1: Открываем браузер и регистрируемся
