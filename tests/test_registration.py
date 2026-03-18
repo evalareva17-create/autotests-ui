@@ -1,40 +1,29 @@
 import pytest
-from playwright.sync_api import sync_playwright, expect
+from pages.registration_page import RegistrationPage
+from pages.dashboard_page import DashboardPage
+
 
 @pytest.mark.regression
 @pytest.mark.registration
-def test_successful_registration():
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
+def test_successful_registration(registration_page: RegistrationPage, dashboard_page: DashboardPage):
+    """
+    Тест на успешную регистрацию пользователя.
+    """
+    # Переходим на страницу регистрации
+    registration_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
 
-        page.goto('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration')
+    # Генерируем уникальные данные для регистрации, чтобы тест был атомарным
+    import time
+    timestamp = int(time.time())
+    email = f"user_{timestamp}@example.com"
+    username = f"user_{timestamp}"
+    password = "password"
 
-        email_input = page.get_by_test_id('registration-form-email-input').locator('input')
-        email_input.fill('user@gmail.com')
+    # Заполняем форму регистрации
+    registration_page.fill_registration_form(email, username, password)
 
-        username_input = page.get_by_test_id('registration-form-username-input').locator('input')
-        username_input.fill('username')
+    # Нажимаем кнопку регистрации
+    registration_page.click_registration_button()
 
-        password_input = page.get_by_test_id('registration-form-password-input').locator('input')
-        password_input.fill('password')
-
-        registration_button = page.get_by_test_id('registration-page-registration-button')
-        registration_button.click()
-
-        # Добавлена проверка наличия заголовка "Dashboard", как требовалось в описании шага
-        dashboard_title = page.locator('//h6[contains(text(), "Dashboard") or contains(text(), "Панель управления")]')
-        expect(dashboard_title).to_be_visible()
-
-        context.storage_state(path='browser-state.json')
-
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context(storage_state='browser-state.json')
-        page = context.new_page()
-
-        page.goto('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/dashboard')
-
-        # Задержка чисто для визуального контроля (по коду из урока)
-        page.wait_for_timeout(5000)
+    # Проверяем, что после регистрации виден заголовок "Dashboard"
+    dashboard_page.check_dashboard_title_visible()
