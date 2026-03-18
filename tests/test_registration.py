@@ -26,4 +26,4 @@ def test_successful_registration(registration_page: RegistrationPage, dashboard_
     registration_page.click_registration_button()
 
     # Проверяем, что после регистрации виден заголовок "Dashboard"
-    dashboard_page.check_visible_dashboard_title()
+    dashboard_page.dashboard_toolbar.check_visible()
