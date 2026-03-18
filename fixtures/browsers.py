@@ -46,6 +46,21 @@ def chromium_page_with_state(initialize_browser_state) -> Page:
         browser.close()
 
 @pytest.fixture(scope="function")
+def chromium_page_with_state_2(initialize_browser_state) -> Page:
+    """
+    Открывает ещё одну новую страницу браузера, используя сохраненное состояние из файла browser-state.json.
+    """
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=False)
+        context = browser.new_context(storage_state="browser-state.json")
+        page = context.new_page()
+        
+        yield page
+        
+        context.close()
+        browser.close()
+
+@pytest.fixture(scope="function")
 def chromium_page() -> Page:
     """
     Открывает новую страницу браузера без состояния.
