@@ -1,6 +1,9 @@
 import pytest
 from playwright.sync_api import sync_playwright, Page, expect
 
+from pages.authentication.registration_page import RegistrationPage
+
+
 @pytest.fixture(scope="session")
 def initialize_browser_state():
     """
@@ -12,13 +15,11 @@ def initialize_browser_state():
         context = browser.new_context()
         page = context.new_page()
 
-        page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
-
-        page.get_by_test_id('registration-form-email-input').locator('input').fill("user.fixture.test@gmail.com")
-        page.get_by_test_id('registration-form-username-input').locator('input').fill("fixture_user")
-        page.get_by_test_id('registration-form-password-input').locator('input').fill("password")
-        
-        page.get_by_test_id('registration-page-registration-button').click()
+        # Работаем с регистрационной страницей через Page Object
+        registration_page = RegistrationPage(page=page)
+        registration_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration')
+        registration_page.registration_form.fill(email='user.fixture.test@gmail.com', username='fixture_user', password='password')
+        registration_page.click_registration_button()
 
         dashboard_title = page.locator('//h6[contains(text(), "Dashboard") or contains(text(), "Панель управления")]')
         expect(dashboard_title).to_be_visible()

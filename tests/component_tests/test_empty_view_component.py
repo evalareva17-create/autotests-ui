@@ -1,8 +1,8 @@
 import pytest
 from playwright.sync_api import expect
 
-from pages.courses_list_page import CoursesListPage
-from pages.create_course_page import CreateCoursePage
+from pages.courses.courses_list_page import CoursesListPage
+from pages.courses.create_course_page import CreateCoursePage
 
 
 @pytest.mark.courses
@@ -140,15 +140,15 @@ def test_empty_view_component_structure(chromium_page_with_state):
     empty_view = courses_list_page.empty_view
     
     # Проверяем иконку
-    expect(empty_view.icon).to_be_visible()
+    expect(empty_view.icon.get_locator()).to_be_visible()
     
     # Проверяем заголовок
-    expect(empty_view.title).to_be_visible()
-    expect(empty_view.title).to_have_text('There is no results')
+    expect(empty_view.title.get_locator()).to_be_visible()
+    expect(empty_view.title.get_locator()).to_have_text('There is no results')
     
     # Проверяем описание
-    expect(empty_view.description).to_be_visible()
-    expect(empty_view.description).to_have_text('Results from the load test pipeline will be displayed here')
+    expect(empty_view.description.get_locator()).to_be_visible()
+    expect(empty_view.description.get_locator()).to_have_text('Results from the load test pipeline will be displayed here')
 
 
 @pytest.mark.regression

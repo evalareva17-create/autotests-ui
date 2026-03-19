@@ -2,8 +2,8 @@ import pytest
 import re
 from playwright.sync_api import expect
 
-from pages.dashboard_page import DashboardPage
-from pages.courses_list_page import CoursesListPage
+from pages.dashboard.dashboard_page import DashboardPage
+from pages.courses.courses_list_page import CoursesListPage
 
 
 @pytest.mark.regression
@@ -62,13 +62,13 @@ def test_sidebar_navigation_dashboard_to_courses(chromium_page_with_state):
     page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/dashboard")
     
     # Проверяем, что мы на дашборде
-    expect(page).to_have_url(re.compile(r".*/#/dashboard"))
+    expect(page).to_have_url(re.compile(r".*#/dashboard"))
     
     # Используем sidebar для перехода на страницу курсов
     dashboard_page.sidebar.click_courses()
     
     # Проверяем, что произошел переход на страницу курсов
-    expect(page).to_have_url(re.compile(r".*/#/courses"))
+    expect(page).to_have_url(re.compile(r".*#/courses"))
 
 
 @pytest.mark.regression
@@ -85,13 +85,13 @@ def test_sidebar_navigation_courses_to_dashboard(chromium_page_with_state):
     page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
     
     # Проверяем, что мы на странице курсов
-    expect(page).to_have_url(re.compile(r".*/#/courses"))
+    expect(page).to_have_url(re.compile(r".*#/courses"))
     
     # Используем sidebar для перехода на дашборд
     courses_list_page.sidebar.click_dashboard()
     
     # Проверяем, что произошел переход на дашборд
-    expect(page).to_have_url(re.compile(r".*/#/dashboard"))
+    expect(page).to_have_url(re.compile(r".*#/dashboard"))
 
 
 @pytest.mark.regression
@@ -140,8 +140,8 @@ def test_sidebar_component_reusability(chromium_page_with_state):
         
         # Проверяем sidebar - один и тот же компонент на разных страницах
         page_instance.sidebar.check_visible()
-        
+                    
         # Дополнительная проверка: все элементы должны быть видны
-        expect(page_instance.sidebar.dashboard_list_item.icon).to_be_visible()
-        expect(page_instance.sidebar.courses_list_item.icon).to_be_visible()
-        expect(page_instance.sidebar.logout_list_item.icon).to_be_visible()
+        expect(page_instance.sidebar.dashboard_list_item.icon.get_locator()).to_be_visible()
+        expect(page_instance.sidebar.courses_list_item.icon.get_locator()).to_be_visible()
+        expect(page_instance.sidebar.logout_list_item.icon.get_locator()).to_be_visible()

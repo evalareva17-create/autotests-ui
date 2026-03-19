@@ -1,9 +1,9 @@
 import pytest
 from playwright.sync_api import expect
 
-from pages.dashboard_page import DashboardPage
-from pages.courses_list_page import CoursesListPage
-from pages.create_course_page import CreateCoursePage
+from pages.dashboard.dashboard_page import DashboardPage
+from pages.courses.courses_list_page import CoursesListPage
+from pages.courses.create_course_page import CreateCoursePage
 
 
 @pytest.mark.regression
@@ -93,9 +93,9 @@ def test_navbar_component_reusability(chromium_page_with_state):
         
         # Проверяем navbar - один и тот же компонент на разных страницах
         page_instance.navbar.check_visible("fixture_user")
-        
+                    
         # Дополнительная проверка: заголовок приложения должен быть одинаковым везде
-        expect(page_instance.navbar.app_title).to_have_text('UI Course')
+        expect(page_instance.navbar.app_title.get_locator()).to_have_text('UI Course')
 
 
 @pytest.mark.regression
@@ -107,6 +107,9 @@ def test_navbar_component_composition_example(chromium_page_with_state):
     
     # Создаем страницу с несколькими компонентами
     courses_list_page = CoursesListPage(page=page)
+    
+    # Очищаем все курсы перед тестом
+    courses_list_page.delete_all_courses()
     
     # Открываем страницу
     page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")

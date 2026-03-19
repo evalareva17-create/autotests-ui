@@ -1,9 +1,8 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 
 from pages.base_page import BasePage
 from components.navigation.navbar_component import NavbarComponent
 from components.create_course_form_component import CreateCourseFormComponent
-from components.courses.create_course_exercise_form_component import CreateCourseExerciseFormComponent
 from components.courses.create_course_toolbar_view_component import CreateCourseToolbarViewComponent
 from components.courses.create_course_exercises_toolbar_view_component import CreateCourseExercisesToolbarViewComponent
 from components.views.empty_view_component import EmptyViewComponent
@@ -26,9 +25,6 @@ class CreateCoursePage(BasePage):
         # Используем компонент загрузки изображения
         self.image_upload_widget = ImageUploadWidgetComponent(page, 'create-course-preview')
 
-        # Используем компонент формы задания
-        self.create_exercise_form = CreateCourseExerciseFormComponent(page)
-
     def check_visible_image_upload_widget(self, is_image_uploaded: bool = False):
         self.image_upload_widget.check_visible(is_image_uploaded)
 
@@ -49,5 +45,3 @@ class CreateCoursePage(BasePage):
             title='There is no exercises',
             description='Click on "Create exercise" button to create new exercise'
         )
-
-

@@ -1,11 +1,18 @@
 import pytest
+import sys
+from pathlib import Path
 from playwright.sync_api import Page
 
-from pages.login_page import LoginPage
-from pages.registration_page import RegistrationPage
-from pages.dashboard_page import DashboardPage
-from pages.courses_list_page import CoursesListPage
-from pages.create_course_page import CreateCoursePage
+# Добавляем корневую директорию проекта в PYTHONPATH
+project_root = Path(__file__).parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from pages.authentication.login_page import LoginPage
+from pages.authentication.registration_page import RegistrationPage
+from pages.dashboard.dashboard_page import DashboardPage
+from pages.courses.courses_list_page import CoursesListPage
+from pages.courses.create_course_page import CreateCoursePage
 
 
 @pytest.fixture
