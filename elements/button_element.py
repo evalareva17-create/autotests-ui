@@ -9,22 +9,24 @@ class Button(BaseElement):
     Предоставляет методы для работы с кнопками.
     """
 
-    def check_enabled(self, **kwargs):
+    def check_enabled(self, nth: int = 0, **kwargs):
         """
         Проверяет, что кнопка доступна для взаимодействия
 
         Args:
+            nth: индекс элемента (для списков)
             **kwargs: параметры для форматирования локатора
         """
-        locator = self.get_locator(**kwargs)
+        locator = self.get_locator(nth, **kwargs)
         expect(locator).to_be_enabled()
 
-    def check_disabled(self, **kwargs):
+    def check_disabled(self, nth: int = 0, **kwargs):
         """
         Проверяет, что кнопка недоступна для взаимодействия
 
         Args:
+            nth: индекс элемента (для списков)
             **kwargs: параметры для форматирования локатора
         """
-        locator = self.get_locator(**kwargs)
+        locator = self.get_locator(nth, **kwargs)
         expect(locator).to_be_disabled()
